@@ -1,0 +1,76 @@
+{
+    "Name" : "Jake Bukuts",
+    "Education" : {
+        "university" : "University of South Carolina",
+        "location" : "Columbia, SC",
+        "degree" : "Bachelor of Computer Science",
+        "dates" : "August 2017 - May 2021",
+        "gpa" : 3.90
+    },
+    "Experience" : [
+        {
+            "title" : "Teaching Assistant",
+            "comp" : "University of South Carolina",
+            "dates" : ["January 2019","January 2020"],
+            "desc" : "Conducted a lab for undergraduate students instructing on both the basics of Java programming along with intermediate concepts such as basic data structures (stacks, queues, binary trees, heaps) and recursion."
+        },
+        {
+            "title" : "Intern Backend Developer",
+            "comp" : "Research Cyber Infrastructure UofSC",
+            "dates" : ["May 2019","Current"],
+            "desc" : "Worked with other undergraduate interns to create a user interface for a computer vision project called SnowVision. Work entailed the use of various technologies with Java Play Framework, Apache Thrift, NodeJS, and PostgreSQL being among them."
+        },
+        {
+            "title" : "Intern Developer",
+            "comp" : "Computer Science and Engineering UofSC",
+            "dates" : ["Dec 2019","May 2020"],
+            "desc" : "Work included the research and creation of a vulnerability testing application for use on Samsung’s SmartThings devices. This application implemented the American Fuzzy Lop fuzzing algorithm.  "
+        }
+    ],
+    "Skills" : [
+        {
+            "desc" : "Experience with various programming languanges:",
+            "list" : [
+                {
+                    "desc" : "Java",
+                    "sublist" : ["Java Play Framework", "Hibernate"]
+                },
+                {
+                    "desc" : "Javascript",
+                    "sublist" : ["Angular", "JQuery", "Node.js", "TypeScript", "D3"]
+                },
+                {
+                    "desc" : "C++",
+                    "sublist" : []
+                },
+                {
+                    "desc" : "Python",
+                    "sublist" : []
+                },
+                {
+                    "desc" : "HTML and CSS3",
+                    "sublist" : []
+                }
+            ]
+        },
+        {
+            "desc" : "Database maintenence and design experience:",
+            "list" : [
+                {
+                    "desc" : "Using PostgreSQL and MySQL",
+                    "sublist" : []
+                }
+            ]
+        },
+        {
+            "desc" : "Using of deep learning technologies:",
+            "list" : [
+                {
+                    "desc" : "Tensorflow",
+                    "sublist" : []
+                }
+            ]
+        }
+    ],
+    "Honors" : ["Dears List 2017 - 2020", "Member of Alpha Sigma Phi"]
+}
