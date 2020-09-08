@@ -21,6 +21,7 @@ export default {
     },
     computed: {
         isPanelOpen() {
+            this.$emit('burger-click', store.isNavOpen);
             return store.isNavOpen
         }
     }
@@ -40,13 +41,14 @@ export default {
     transition: all 150ms ease-in 0s
 }
 .sidebar-backdrop {
-    background-color: rgba(114, 23, 23, .2);
+    background-color: rgba(51, 51, 51, 0.35);
     width: 100vw;
     height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
     cursor: pointer;
+    z-index: 3;
 }
 .sidebar-panel {
     overflow-y: auto;

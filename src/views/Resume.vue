@@ -50,6 +50,9 @@ export default {
 <style scoped>
 #resume {
     text-align: left;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .exp {

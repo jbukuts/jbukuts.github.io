@@ -5,17 +5,16 @@
       <Burger></Burger>
     </nav>
 
-    <SideBar>
+    <SideBar v-on:burger-click='toggleBlur'>
       <ul class="sidebar-panel-nav">
         <router-link tag="li" to="/" @click.native="toggle">Home</router-link>
         <router-link tag="li" to="/resume" @click.native="toggle">Resume</router-link>
-        <router-link tag="li" to="/about" @click.native="toggle">About</router-link>
         <router-link tag="li" to="/projects" @click.native="toggle">Projects</router-link>
       </ul>
     </SideBar>
 
     <div id="main">
-      <router-view/>
+      <router-view />
     </div>
 
     <Footer/>
@@ -41,6 +40,11 @@ export default {
     toggle() {
       console.log("toggle");
       mutations.toggleNav();
+    },
+    toggleBlur(blur) {
+      console.log(blur);
+      document.getElementById('main').style.filter = (blur == true) ? 'blur(2px)' : 'blur(0px)';
+
     }
   }
   
@@ -80,6 +84,7 @@ body {
   top: 0px;
   width: 100vw;
   overflow: hidden;
+  z-index: 2;
   
 
 }
@@ -102,8 +107,11 @@ ul.sidebar-panel-nav > li:hover {
 #main {
   margin-left: auto;
   margin-right: auto;
-  margin-top: 80px;
-  width: 55%;
+  margin-top: 30px;
+  margin-bottom: 25px;
+  width: 90%;
+  height: 100%;
+  overflow: scroll;
 }
 
 #app {

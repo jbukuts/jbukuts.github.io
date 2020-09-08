@@ -1,7 +1,7 @@
 <template>
     <div class="clock">
         <canvas class="canvas" :id="name" width="200" height="200"></canvas>
-        <h2>{{this.name.substring(this.name.indexOf('/')+1).replace('_'," ")}}</h2>
+        <h2>{{this.name.substring(this.name.indexOf('/')+1).replace('_'," ").toUpperCase()}}</h2>
     </div>
 </template>
 
@@ -82,11 +82,20 @@ export default {
 .clock {
     width: auto;
     margin: auto;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 10px;
     display: inline-block;
+    background: rgb(138, 138, 138);
+    border-radius: 25px 25px 0px 0px;
 }
 
 h2 {
+    color: white;
     text-align: center;
+    border-radius: 5px;
+    background: rgb(126, 6, 6);
+    width: 100%;
 }
 
 .canvas {

@@ -14,9 +14,6 @@
 import { store, mutations } from "@/store.js";
 
 export default {
-  // data: () => ({
-  //     isBurgerActive: false
-  // }),
   computed: {
     isBurgerActive() {
       return store.isNavOpen;
@@ -55,6 +52,7 @@ button:focus {
   pointer-events: all;
   transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
   right: 25px;
+  z-index: 4;
 }
 
 .burger-bar {
