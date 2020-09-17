@@ -18,6 +18,7 @@
     </div>
 
     <Footer/>
+
   </div>
 </template>
 
@@ -26,6 +27,7 @@ import { mutations } from "@/store.js";
 import SideBar from '@/components/SideBar.vue'
 import Burger from "./components/Burger.vue";
 import Footer from "./components/Footer.vue";
+
 
 
 
@@ -107,20 +109,71 @@ ul.sidebar-panel-nav > li:hover {
 #main {
   margin-left: auto;
   margin-right: auto;
-  margin-top: 30px;
-  margin-bottom: 25px;
   width: 90%;
-  height: 100%;
-  overflow: scroll;
+  height: calc(100% - 71px);
+  padding-top: 46px;
+  padding-bottom: 25px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 #app {
   top: 0;
   bottom: 0;
   position: fixed;
-  overflow-y: scroll;
   width: 100%;
+  overflow: hidden;
+}
 
+.tooltip {
+  display: block !important;
+  z-index: 10000;
+}
+
+.tooltip .tooltip-inner {
+  background: black;
+  color: white;
+  border-radius: 5px;
+  padding: 3px;
+}
+
+.tooltip .tooltip-arrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  position: absolute;
+  margin: 5px;
+  border-color: black;
+  z-index: 1;
+}
+
+.tooltip[x-placement^="bottom"] .tooltip-arrow {
+  border-width: 0 5px 5px 5px;
+  border-left-color: transparent !important;
+  border-right-color: transparent !important;
+  border-top-color: transparent !important;
+  top: -5px;
+  left: calc(50% - 5px);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+
+
+.tooltip[aria-hidden='true'] {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .15s, visibility .15s;
+}
+
+.tooltip[aria-hidden='false'] {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity .15s, visibility .15s;
 }
 
 

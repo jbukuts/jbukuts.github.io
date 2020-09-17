@@ -53,6 +53,7 @@ export default {
     width: 60%;
     margin-left: auto;
     margin-right: auto;
+    overflow: scroll;
 }
 
 .exp {

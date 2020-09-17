@@ -17,7 +17,8 @@
                 <a :href="item.html_url">{{item.name}}</a>
                 <p>{{item.description}}</p>
 
-                <div id="languange-bar" :style="createBarStyle(item.langs_data)"></div>
+                <!--<div id="languange-bar" :style="createBarStyle(item.langs_data)"></div>-->
+                <CodeBar v-if='loaded' :list=item.langs_data :colors=langColors />
             </div>
         </div>
 
@@ -26,12 +27,14 @@
 
 <script>
 import Loader from '../components/Loader.vue';
+import CodeBar from '../components/CodeBar.vue';
 import axios from 'axios';
 
 export default {
     name : 'Projects',
     components : {
-        Loader
+        Loader,
+        CodeBar
     },
     data() {
         return {
@@ -47,7 +50,7 @@ export default {
         this.allLangs = [...new Set(this.projects.reduce(reducer, []).filter(x => x != 'total'))];
    
         console.log(this.allLangs);
-        this.generateColors(this.allLangs);
+        this.langColors = this.generateColors(this.allLangs);
         console.log(this.langColors);
         this.loaded = true;
     },
@@ -57,9 +60,13 @@ export default {
 
             let colorInc = 340 / langList.length;
 
+            let temp = {};
+
             for (let i = 0; i< langList.length; ++i) {
-                this.langColors[langList[i]] = `hsl(${i * colorInc} , 100%, 25%)`;
+                temp[langList[i]] = `hsl(${i * colorInc} , 100%, 25%)`;
             }
+
+            return temp;
         },
         createBarStyle(list) {
 
@@ -119,19 +126,20 @@ export default {
 
 <style scoped>
 
+
 .projects {
     width: 55%;
     height: 100%;
     overflow: scroll;
     margin-right: auto;
     margin-left: auto;
-    margin-top: 15px;
 }
 
 .proj {
     border: 1px solid black;
     border-radius: 0px;
     padding: 15px;
+    padding-bottom: 30px;
     margin: auto;
     margin-bottom: 20px;
     box-shadow: 5px 5px rgba(37, 37, 37, .3);
