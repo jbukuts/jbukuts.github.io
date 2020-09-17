@@ -51,7 +51,7 @@ export default {
     }
   },
   async mounted() {
-    this.articles = await axios.get('https://newsapi.org/v2/top-headlines?country=us&apiKey=9077a9b07c3c46eba10555ffabdcca93').then((d) => {
+    this.articles = await axios.get('https://us-central1-vcrhomepage-8711c.cloudfunctions.net/getTopHeadlines').then((d) => {
       console.log(d.data.articles.map(x => x.source.name));
       return d.data.articles;
     });
