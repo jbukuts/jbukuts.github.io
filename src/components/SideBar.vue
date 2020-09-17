@@ -52,7 +52,7 @@ export default {
 }
 .sidebar-panel {
     overflow-y: auto;
-    background-color: rgb(114, 23, 23);
+    background-color: rgb(34, 34, 34);
     position: fixed;
     left: 0;
     top: 0;

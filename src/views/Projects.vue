@@ -137,12 +137,12 @@ export default {
 
 .proj {
     border: 1px solid black;
-    border-radius: 0px;
+    border-radius: 10px;
     padding: 15px;
     padding-bottom: 30px;
     margin: auto;
     margin-bottom: 20px;
-    box-shadow: 5px 5px rgba(37, 37, 37, .3);
+    box-shadow: -5px 5px rgba(37, 37, 37, .3);
     width: 90%;
 }
 

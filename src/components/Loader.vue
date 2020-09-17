@@ -12,7 +12,7 @@ export default {
 .loader {
     margin: auto;
     border: 10px solid rgb(175, 175, 175); /* Light grey */
-    border-top: 10px solid #882323; /* Blue */
+    border-top: 10px solid #727272; /* Blue */
     border-radius: 50%;
     width: 100px;
     height: 100px;

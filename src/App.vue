@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav class="main-nav">
-      <div class="logo">Jake Bukuts' Github Site</div>
+      <div class="logo">Bukuts' Blog</div>
       <Burger></Burger>
     </nav>
 
@@ -81,14 +81,16 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 0.8rem;
-  background: rgb(124, 17, 17);
   position: fixed;
   top: 0px;
   width: 100vw;
   overflow: hidden;
   z-index: 2;
-  
 
+  background: linear-gradient(270deg, #ff0000, #d58516, #aeb728, #00813e, #003681, #b757c1);
+  background-size: 1200% 1200%;
+  -webkit-animation: AnimationName 20s ease infinite;
+  animation: AnimationName 20s ease infinite;
 }
 ul.sidebar-panel-nav {
   list-style-type: none;
@@ -176,6 +178,18 @@ ul.sidebar-panel-nav > li:hover {
   transition: opacity .15s, visibility .15s;
 }
 
+
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
 
 
 </style>
