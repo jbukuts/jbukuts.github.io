@@ -1,25 +1,44 @@
 <template>
   <div class="home">
-    <h1>Welcome to my Github Site</h1>
 
+    <div id="header-stuff">
+      <h1>Welcome to my <mark>Github</mark> Blog</h1>
+      <h1>Today is <mark>{{`${date.toLocaleString('default', { month: 'short' })} ${date.getDate()}, ${date.getFullYear()}`}}</mark></h1>
+      <h1>It's day <mark>{{dayAroundSun()}}</mark> around the sun</h1>
+      <h1>The weather in <mark>{{location.city}}, {{location.state}}</mark> is <mark>{{Math.round(dailyForecast.current.temp)}}°</mark></h1>
+    </div>
+    
     <!--<div id="clocks" >
       <Clock v-for="c in this.times" :key="c" :name='c' :timeZone='c' />
     </div>-->
 
-    <h1>TOP ARTICLES TODAY</h1>
     <hr style="margin-bottom: 30px">
 
     <div class="article-container" v-if="articles.length > 0">
       <div class="article" :class="{side : (index != currArt)}" 
         v-for="index in [(currArt-1 < 0) ? this.articles.length-1 : currArt-1, currArt, (currArt+1 > this.articles.length-1) ? 0 : currArt+1]" :key=index  v-on:click="moveCurr(index)">
-        <h3>{{articles[index].title}}</h3>
-        <p v-if="articles[index].author != null" style="text-align: left; font-size: 12px; margin-bottom: 0px">By <b>{{articles[index].author.toUpperCase()}}</b></p>
-        <p style="text-align: left; font-size: 12px; margin-top: 0px">Published at {{dateToString(articles[index].publishedAt)}}</p>
-        <img :src='articles[index].urlToImage' style="width: 90%; border-radius: 10px; filter: grayscale(100%)" />
+        
+        <h3 style="text-align: right">
+          <mark>{{articles[index].title.substring(0,articles[index].title.lastIndexOf(" - "))}}</mark>
+        </h3>
+
+        <p v-if="articles[index].author != null" style="text-align: left; font-size: 12px; margin-bottom: 0px">
+          By <b>{{articles[index].author.toUpperCase()}}</b>
+        </p>
+
+        <p style="text-align: left; font-size: 12px; margin-top: 0px">
+          Published at {{dateToString(articles[index].publishedAt)}}
+        </p>
+
+        <img :src='articles[index].urlToImage' style="border-radius: 10px; filter: grayscale(100%); max-height: 140px; max-width: 90%" />
         <p v-if="index == currArt" style="font-size: 14px">{{articles[index].description}}</p>
         <a v-if="index == currArt" :href="articles[index].url" style="color: black; font-weight: bold; font-size: 14px">CLICK TO READ FULL ARTICLE</a>
       </div>
     </div>
+
+    <hr style="margin-top:30px">
+    <p style="text-align:right; font-size: 10px">created with NewsAPI</p>
+
   </div>
 </template>
 
@@ -38,33 +57,98 @@ export default {
     return {
       times : [ "Asia/Tokyo", "America/Los_Angeles","America/New_York" ] ,
       articles : [],
-      currArt : 1
+      currArt : 1,
+      date : new Date(),
+      location : null,
+      dailyForecast : null,
+      apiKey : 'dfdc47588066cf48c7e29192f8c86c74',
+      geoCodeKey : '532ecae0e6264ea5876b01e53a23605a',
     }
   },
   methods : {
+    dayAroundSun() {
+      var start = new Date(this.date.getFullYear(), 0, 0);
+      var diff = this.date - start;
+      var oneDay = 1000 * 60 * 60 * 24;
+      return Math.floor(diff/oneDay);
+    },
     moveCurr(index) {
       this.currArt = index;
     },
     dateToString(d) {
       var date = new Date(d);
       return `${date.toLocaleString('default', { month: 'short' })} ${date.getDate()}, ${date.getFullYear()} `;
-    }
+    },
   },
   async mounted() {
     this.articles = await axios.get('https://us-central1-vcrhomepage-8711c.cloudfunctions.net/getTopHeadlines').then((d) => {
-      console.log(d.data.articles.map(x => x.source.name));
+      //console.log(d.data.articles.map(x => x.source.name));
       return d.data.articles;
     });
 
+
+     if (await navigator.geolocation) {    
+      await navigator.geolocation.getCurrentPosition(async (loc) => {
+
+        let lat = loc.coords.latitude;
+        let lng = loc.coords.longitude;
+        let geoURL = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${this.geoCodeKey}`;
+        let weatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&appid=${this.apiKey}&units=imperial`;
+
+        this.dailyForecast = await axios.get(weatherURL).then(res => {
+          console.log(res.data);
+          return res.data;
+        });
+
+        
+        this.location = await axios.get(geoURL).then(res => {
+          return {
+            city : res.data.results[0].components.city,
+            state : res.data.results[0].components.state_code
+          }
+        });
+
+      }); 
+    }
+
     console.log(this.articles);
+    console.log(this.location);
+    console.log(this.dailyForecast);
   }
 }
 </script>
 
 <style scoped>
 
+#header-stuff {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#header-stuff h1 {
+  text-align: left;
+  margin-top: 0px;
+  margin-bottom: -3px;
+}
+
+::selection {
+  background: rgb(170, 170, 170);
+}
+
+mark {
+  color: white;
+  background: rgb(0, 0, 0);
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+.home {
+  height: 100%;
+}
+
 .article-container {
   width: 100%;
+  display: inline-block;
   margin: auto;
 }
 
@@ -78,7 +162,6 @@ export default {
   width: calc(33% - 20px);
   float: left;
   border: 1px solid black;
-  border-radius: 10px;
   margin: auto;
   padding: 0px;
   text-align: center;
@@ -99,7 +182,6 @@ export default {
   height: 100%;
   width: 100%;
   opacity: 0.7;
-  border-radius: 10px;
   /* Declaring our shadow color inherit from the parent (button) */
   background: linear-gradient(270deg, #ff0000, #d58516, #aeb728, #00813e, #003681, #b757c1);
   background-size: 1200% 1200%;
@@ -113,7 +195,7 @@ export default {
 
 .side {
   transform: scale(.7);
-  transition: filter .5s, transform .25s;
+  transition: filter .25s, transform .25s;
   filter: blur(4px);
   height: auto;
 }

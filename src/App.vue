@@ -14,7 +14,9 @@
     </SideBar>
 
     <div id="main">
-      <router-view />
+      <transition name="fade" mode="out-in">
+        <router-view/>
+      </transition>
     </div>
 
     <Footer/>
@@ -176,6 +178,18 @@ ul.sidebar-panel-nav > li:hover {
   visibility: visible;
   opacity: 1;
   transition: opacity .15s, visibility .15s;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
 }
 
 

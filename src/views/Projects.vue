@@ -63,7 +63,7 @@ export default {
             let temp = {};
 
             for (let i = 0; i< langList.length; ++i) {
-                temp[langList[i]] = `hsl(${i * colorInc} , 100%, 25%)`;
+                temp[langList[i]] = `hsl(${i * colorInc} , 90%, 35%)`;
             }
 
             return temp;
@@ -137,14 +137,15 @@ export default {
 
 .proj {
     border: 1px solid black;
-    border-radius: 10px;
+    border-radius: 0px;
     padding: 15px;
     padding-bottom: 30px;
     margin: auto;
     margin-bottom: 20px;
-    box-shadow: -5px 5px rgba(37, 37, 37, .3);
     width: 90%;
+    box-shadow: -5px 5px rgb(0, 0, 0);
 }
+
 
 .proj a {
     text-decoration: none;

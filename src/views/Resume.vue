@@ -1,19 +1,19 @@
 <template>
   <div id="resume">
 
-    <h2>Education</h2>
+    <h2><mark>Education</mark></h2>
     <h3>{{resume.Education.university.toUpperCase()}} - {{resume.Education.location.toUpperCase()}}</h3>
     <p>{{resume.Education.degree}}</p>
     <p>{{resume.Education.dates}}</p>
     <p>Overall GPA : {{resume.Education.gpa}}</p>
     
-    <h2>Experience</h2>
+    <h2><mark>Experience</mark></h2>
     <div class="exp" v-for="item in resume.Experience" :key="item.title">
         <h3>{{item.title.toUpperCase()}}, {{item.comp.toUpperCase()}} - {{item.dates[0].toUpperCase()}} - {{item.dates[1].toUpperCase()}}</h3>
         <p>{{item.desc}}</p>
     </div>
     
-    <h2>Skills</h2>
+    <h2><mark>Skills</mark></h2>
     <div class="skills" v-for="item in resume.Skills" :key="item.desc">
         <p>{{item.desc}}</p>
         <ul v-if="item.list.length != 0">
@@ -48,6 +48,14 @@ export default {
 </script>
 
 <style scoped>
+
+mark {
+  color: white;
+  background: black;
+  padding: 2.5px;
+  border-radius: 0px;
+}
+
 #resume {
     text-align: left;
     width: 60%;
@@ -74,7 +82,7 @@ ul {
 
 h3 {
     font-size: 16px;
-    color: rgb(100, 100, 100);
+    color: rgb(65, 65, 65);
     font-style: italic;
     margin-top: 1px;
     margin-bottom: 0px;

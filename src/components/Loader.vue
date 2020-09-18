@@ -11,8 +11,8 @@ export default {
 <style scoped>
 .loader {
     margin: auto;
-    border: 10px solid rgb(175, 175, 175); /* Light grey */
-    border-top: 10px solid #727272; /* Blue */
+    border: 10px solid rgb(255, 255, 255); /* Light grey */
+    border-top: 10px solid #000000; /* Blue */
     border-radius: 50%;
     width: 100px;
     height: 100px;
