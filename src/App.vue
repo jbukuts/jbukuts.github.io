@@ -1,13 +1,14 @@
 <template>
   <div id="app">
     <nav class="main-nav">
-      <div class="logo">Bukuts' Blog</div>
+      <div class="logo"><i>Bukuts' Blog</i></div>
       <Burger></Burger>
     </nav>
 
     <SideBar v-on:burger-click='toggleBlur'>
       <ul class="sidebar-panel-nav">
         <router-link tag="li" to="/" @click.native="toggle">Home</router-link>
+        <router-link tag="li" to="/about" @click.native="toggle">About</router-link>
         <router-link tag="li" to="/resume" @click.native="toggle">Resume</router-link>
         <router-link tag="li" to="/projects" @click.native="toggle">Projects</router-link>
       </ul>
@@ -76,6 +77,7 @@ body {
 
 .logo {
   align-self: center;
+  font-size: 22px;
   color: #fff;
   font-weight: bold;
 }

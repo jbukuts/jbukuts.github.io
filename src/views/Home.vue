@@ -2,10 +2,10 @@
   <div class="home">
 
     <div id="header-stuff">
-      <h1>Welcome to my <mark>Github</mark> Blog</h1>
-      <h1>Today is <mark>{{`${date.toLocaleString('default', { month: 'short' })} ${date.getDate()}, ${date.getFullYear()}`}}</mark></h1>
-      <h1>It's day <mark>{{dayAroundSun()}}</mark> around the sun</h1>
-      <h1>The weather in <mark>{{location.city}}, {{location.state}}</mark> is <mark>{{Math.round(dailyForecast.current.temp)}}°</mark></h1>
+      <h1>welcome to my <mark>Github</mark> Blog</h1>
+      <h1>today is <mark>{{`${date.toLocaleString('default', { month: 'short' })} ${date.getDate()}, ${date.getFullYear()}`}}</mark></h1>
+      <h1>it's day <mark>{{dayAroundSun()}}</mark> around the sun</h1>
+      <h1>in <mark>{{location.city}}, {{location.state}}</mark> it's <mark>{{Math.round(dailyForecast.current.temp)}}°</mark></h1>
     </div>
     
     <!--<div id="clocks" >
@@ -59,13 +59,23 @@ export default {
       articles : [],
       currArt : 1,
       date : new Date(),
-      location : null,
+      location : {city : 'Charlotte', state : 'NC'},
       dailyForecast : null,
       apiKey : 'dfdc47588066cf48c7e29192f8c86c74',
       geoCodeKey : '532ecae0e6264ea5876b01e53a23605a',
     }
   },
   methods : {
+    async animateHeader() {
+      let header = document.getElementById('header-stuff').querySelectorAll('h1');
+      console.log(header);
+
+      for (let i=0; i<header.length; ++i) {
+        header[i].style.opacity = 1;
+        await new Promise(r => setTimeout(r, 500));
+      }
+
+    },
     dayAroundSun() {
       var start = new Date(this.date.getFullYear(), 0, 0);
       var diff = this.date - start;
@@ -86,8 +96,7 @@ export default {
       return d.data.articles;
     });
 
-
-     if (await navigator.geolocation) {    
+     if (navigator.geolocation) {    
       await navigator.geolocation.getCurrentPosition(async (loc) => {
 
         let lat = loc.coords.latitude;
@@ -96,24 +105,18 @@ export default {
         let weatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&appid=${this.apiKey}&units=imperial`;
 
         this.dailyForecast = await axios.get(weatherURL).then(res => {
-          console.log(res.data);
           return res.data;
         });
 
-        
         this.location = await axios.get(geoURL).then(res => {
           return {
             city : res.data.results[0].components.city,
             state : res.data.results[0].components.state_code
           }
         });
-
+        this.animateHeader();
       }); 
     }
-
-    console.log(this.articles);
-    console.log(this.location);
-    console.log(this.dailyForecast);
   }
 }
 </script>
@@ -129,6 +132,8 @@ export default {
   text-align: left;
   margin-top: 0px;
   margin-bottom: -3px;
+  opacity: 0;
+  transition: opacity 1s;
 }
 
 ::selection {
@@ -166,7 +171,7 @@ mark {
   padding: 0px;
   text-align: center;
   padding: 10px;
-  height: auto;
+  height: 480px;
   background: white;
   position: relative;
 }
