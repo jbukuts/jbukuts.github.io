@@ -13,28 +13,27 @@
     </div>-->
 
     <hr style="margin-bottom: 30px">
+    <carousel :perPage=3 :perPageCustom="[[0, 1], [768, 3]]">
+      <slide  v-for="art in this.articles" :key="art.title">
+        <div class="article">
+          <h3 style="text-align: right">
+            <mark>{{art.title.substring(0,art.title.lastIndexOf(" - "))}}</mark>
+          </h3>
 
-    <div class="article-container" v-if="articles.length > 0">
-      <div class="article" :class="{side : (index != currArt)}" 
-        v-for="index in [(currArt-1 < 0) ? this.articles.length-1 : currArt-1, currArt, (currArt+1 > this.articles.length-1) ? 0 : currArt+1]" :key=index  v-on:click="moveCurr(index)">
-        
-        <h3 style="text-align: right">
-          <mark>{{articles[index].title.substring(0,articles[index].title.lastIndexOf(" - "))}}</mark>
-        </h3>
+          <p v-if="art.author != null" style="text-align: left; font-size: 12px; margin-bottom: 0px">
+            By <b>{{art.author.toUpperCase()}}</b>
+          </p>
 
-        <p v-if="articles[index].author != null" style="text-align: left; font-size: 12px; margin-bottom: 0px">
-          By <b>{{articles[index].author.toUpperCase()}}</b>
-        </p>
+          <p style="text-align: left; font-size: 12px; margin-top: 0px">
+            Published at {{dateToString(art.publishedAt)}}
+          </p>
 
-        <p style="text-align: left; font-size: 12px; margin-top: 0px">
-          Published at {{dateToString(articles[index].publishedAt)}}
-        </p>
-
-        <img :src='articles[index].urlToImage' style="border-radius: 10px; filter: grayscale(100%); max-height: 140px; max-width: 90%" />
-        <p v-if="index == currArt" style="font-size: 14px">{{articles[index].description}}</p>
-        <a v-if="index == currArt" :href="articles[index].url" style="color: black; font-weight: bold; font-size: 14px">CLICK TO READ FULL ARTICLE</a>
-      </div>
-    </div>
+          <img :src='art.urlToImage' style="border-radius: 10px; filter: grayscale(100%); max-height: 140px; max-width: 90%" />
+          <p style="font-size: 14px">{{art.description}}</p>
+          <a :href="art.url" style="color: black; font-weight: bold; font-size: 14px">CLICK TO READ FULL ARTICLE</a>
+        </div>
+      </slide>
+    </carousel>
 
     <hr style="margin-top:30px">
     <p style="text-align:right; font-size: 10px">created with NewsAPI</p>
@@ -46,11 +45,15 @@
 // @ is an alias to /src
 //import Clock from "../components/Clock.vue";
 import axios from 'axios';
+import { Carousel, Slide } from 'vue-carousel';
+
 
 
 export default {
   name: 'Home',
   components : {
+    Carousel,
+    Slide
     //Clock
   },
   data() {
@@ -122,7 +125,6 @@ export default {
 </script>
 
 <style scoped>
-
 #header-stuff {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -134,6 +136,7 @@ export default {
   margin-bottom: -3px;
   opacity: 0;
   transition: opacity 1s;
+  font-size: 26px
 }
 
 ::selection {
@@ -151,21 +154,7 @@ mark {
   height: 100%;
 }
 
-.article-container {
-  width: 100%;
-  display: inline-block;
-  margin: auto;
-}
-
-.side:hover {
-  filter: blur(0px);
-  transform: scale(.9);
-  cursor: pointer;
-}
-
 .article {
-  width: calc(33% - 20px);
-  float: left;
   border: 1px solid black;
   margin: auto;
   padding: 0px;
@@ -174,9 +163,10 @@ mark {
   height: 480px;
   background: white;
   position: relative;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
 }
-
-
 
 .article::after {
   content: "";
@@ -192,17 +182,6 @@ mark {
   background-size: 1200% 1200%;
   -webkit-animation: AnimationName 20s ease infinite;
   animation: AnimationName 20s ease infinite;
-}
-
-.side::after {
-  opacity: 0;
-}
-
-.side {
-  transform: scale(.7);
-  transition: filter .25s, transform .25s;
-  filter: blur(4px);
-  height: auto;
 }
 
 h1, h2, p, a {

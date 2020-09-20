@@ -58,6 +58,14 @@ export default {
 
 <style>
 
+.VueCarousel-dot:focus {
+  outline: 0px solid black !important;
+}
+
+.router-link-exact-active {
+  text-decoration: underline !important;
+}
+
 @font-face {
   font-family: Futura;
   src: url(Futura.ttf);
