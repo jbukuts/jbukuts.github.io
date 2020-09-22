@@ -17,11 +17,13 @@ import { store, mutations } from '@/store.js'
 export default {
     name: 'SideBar',
     methods: {
-        closeSidebarPanel: mutations.toggleNav
+        closeSidebarPanel() {
+            mutations.toggleNav();
+            this.$emit('burger-click', store.isNavOpen);
+        }
     },
     computed: {
         isPanelOpen() {
-            this.$emit('burger-click', store.isNavOpen);
             return store.isNavOpen
         }
     }

@@ -19,6 +19,7 @@ export default {
     position: fixed;
     bottom: 0px;
     line-height: 25px;
+    /** box-shadow: 0px -25px 20px white; **/
 }
 
 p {
