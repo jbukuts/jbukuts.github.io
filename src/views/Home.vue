@@ -1,14 +1,14 @@
 <template>
-  <div class="home" :style="this.loaded == false ? 'overflow : hidden' : ''">
+  <div class="home" :style="!this.loaded ? 'overflow : hidden' : ''">
 
-    <Loader v-if="this.loaded == false"/>
+    <Loader v-if="!this.loaded"/>
 
     <div v-if="this.loaded == true">
       <div id="header-stuff">
         <h1>welcome to my <mark>Github</mark> Page</h1>
         <h1>today is <mark>{{`${date.toLocaleString('default', { month: 'short' })} ${date.getDate()}, ${date.getFullYear()}`}}</mark></h1>
         <h1>it's day <mark>{{dayAroundSun()}}</mark> around the sun</h1>
-        <h1>in <mark>{{location.city}}, {{location.state}}</mark> it's <mark>{{Math.round(dailyForecast.current.temp)}}°</mark></h1>
+        <h1 v-if="this.locationOn">in <mark>{{location.city}}, {{location.state}}</mark> it's <mark>{{Math.round(dailyForecast.current.temp)}}°</mark></h1>
       </div>
       
       <!--<div id="clocks" >
@@ -20,29 +20,18 @@
       <div class="cover">
       <carousel :perPage=3 :perPageCustom="[[0, 1], [605, 2], [768, 3], [1200,4]]" :loop=true :autoplay=true :autoplayTimeout=5000 :paginationEnabled='!$isMobile()'>
         <slide  v-for="art in this.articles" :key="art.title">
-          <div class="article">
-            <h3 style="text-align: right">
-              <mark>{{art.title.substring(0,art.title.lastIndexOf(" - "))}}</mark>
-            </h3>
-
-            <p v-if="art.author != null && art.author != ''" style="text-align: left; font-size: 12px; margin-bottom: 0px">
-              By <b>{{art.author.toUpperCase()}}</b>
-            </p>
-
-            <p style="text-align: left; font-size: 12px; margin-top: 0px">
-              Published at {{dateToString(art.publishedAt)}}
-            </p>
-
-            <img :src='art.urlToImage' style="border-radius: 10px; filter: grayscale(100%); max-height: 140px; max-width: 90%" />
-            <p style="font-size: 14px">{{art.description}}</p>
-            <a :href="art.url" target="_blank" style="color: black; font-weight: bold; font-size: 14px; position: absolute; bottom: 5px; left: calc(50% - 6.5em)">CLICK TO READ FULL ARTICLE</a>
-          </div>
+          <Article :art='art'/>
         </slide>
       </carousel>
       </div>
 
       <hr style="margin-top:30px">
       <p style="text-align:right; font-size: 10px">created with NewsAPI</p>
+
+      <div class="weather" v-if="locationOn">
+        <WeatherCard :v-for="fore in this.dailyForecast.daily" :key="fore" :card="fore"/>
+      </div>
+      
     </div>
 
   </div>
@@ -53,7 +42,9 @@
 //import Clock from "../components/Clock.vue";
 import axios from 'axios';
 import { Carousel, Slide } from 'vue-carousel';
+import Article from '../components/Article.vue';
 import Loader from '../components/Loader.vue';
+import WeatherCard from '../components/WeatherCard.vue';
 
 export default {
   name: 'Home',
@@ -61,6 +52,8 @@ export default {
     Carousel,
     Slide,
     Loader,
+    Article,
+    WeatherCard
     //Clock
   },
   data() {
@@ -70,9 +63,8 @@ export default {
       date : new Date(),
       location : {city : 'Charlotte', state : 'NC'},
       dailyForecast : null,
-      geoCodeKey : '532ecae0e6264ea5876b01e53a23605a',
-      apiKey : 'dfdc47588066cf48c7e29192f8c86c74',
       loaded : false,
+      locationOn : false
     }
   },
   methods : {
@@ -108,29 +100,30 @@ export default {
       var oneDay = 1000 * 60 * 60 * 24;
       return Math.floor(diff/oneDay);
     },
-    dateToString(d) {
-      var date = new Date(d);
-      return `${date.toLocaleString('default', { month: 'short' })} ${date.getDate()}, ${date.getFullYear()} `;
-    },
     async getArticles() {
       return await axios.get('https://us-central1-vcrhomepage-8711c.cloudfunctions.net/getTopHeadlines').then((d) => {
         return d.data.articles.filter(x => x.description != null);
       });
     },
     async getForecast(lat, lng) {
-      let weatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&appid=${this.apiKey}&units=imperial`;
+      let weatherURL = `https://us-central1-vcrhomepage-8711c.cloudfunctions.net/getForecast?lat=${lat}&lng=${lng}`;
       return await axios.get(weatherURL).then(res => {
           return res.data;
       });
     },
     async getLocation(lat,lng) {
-      let geoURL = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${this.geoCodeKey}`;
+      let geoURL = `https://us-central1-vcrhomepage-8711c.cloudfunctions.net/getLocation?lat=${lat}&lng=${lng}`;
       return await axios.get(geoURL).then(res => {
         // we only need these two things from the api
         return {
           city : res.data.results[0].components.city,
           state : res.data.results[0].components.state_code
         }
+      });
+    },
+    getCoords() {
+      return new Promise((res, rej) => {
+        return navigator.geolocation.getCurrentPosition(res,rej); 
       });
     }
   },
@@ -139,28 +132,42 @@ export default {
     // arr to hold arr promises
     let promArr = [this.getArticles()];
 
-    if (navigator.geolocation) {    
-      navigator.geolocation.getCurrentPosition(async (loc) => {
-        let lat = loc.coords.latitude;
-        let lng = loc.coords.longitude;        
+    // get the geolaction data
+    await this.getCoords().then(
+      (res) => {
+        // then we can add to the promise array
+        // to get other data
+        console.log('on');
+        this.locationOn = true;
+        let lat = res.coords.latitude;
+        let lng = res.coords.longitude;        
         promArr.push(this.getForecast(lat, lng));
         promArr.push(this.getLocation(lat, lng));
+      }, 
+      (error) => {
+        console.log(error);
+      }
+    ).then(() => {
+      // now we can resolve all promises and set values
+      Promise.all(promArr).then((values) => {
+        console.log('resolving');
+        this.articles = values[0];
 
-        // resolve all promises and set values
-        Promise.all(promArr).then((values) => {
-          this.articles = values[0];
+        if (this.locationOn) {
           this.dailyForecast = values[1];
           this.location = values[2];
-        }).then(async () => {
-          // time to load the page
-          // wait 500 ms so that animation works properly
-          this.loaded = true;
-          await new Promise(r => setTimeout(r, 1));
-          this.animateHeader();
-          console.log(this.dailyForecast);
-        });
-      }); 
-    }
+        }
+      }).then(async () => {
+        // time to load the page
+        // wait 500 ms so that animation works properly
+        this.loaded = true;
+        await new Promise(r => setTimeout(r, 1));
+        this.animateHeader();
+        // console.log(this.dailyForecast.daily);
+      });
+
+    });
+
   }
 }
 </script>
@@ -196,36 +203,6 @@ mark {
   height: 100%;
 }
 
-.article {
-  border: 1px solid black;
-  margin: auto;
-  padding: 0px;
-  text-align: center;
-  padding: 10px;
-  height: 480px;
-  background: white;
-  position: relative;
-  margin-right: 10px;
-  margin-left: 10px;
-  margin-bottom: 10px;
-}
-
-.article::after {
-  content: "";
-  position: absolute;
-  z-index: -4;
-  bottom: -10px;
-  left: -10px;
-  height: 100%;
-  width: 100%;
-  opacity: 0.7;
-  /* Declaring our shadow color inherit from the parent (button) */
-  background: linear-gradient(270deg, #ff0000, #d58516, #aeb728, #00813e, #003681, #b757c1);
-  background-size: 1200% 1200%;
-  -webkit-animation: AnimationName 20s ease infinite;
-  animation: AnimationName 20s ease infinite;
-}
-
 h1, h2, p, a {
   text-align: center;
 }
@@ -233,11 +210,6 @@ h1, h2, p, a {
 #clocks {
   margin: auto;
   text-align: center;
-}
-
-.article a:hover {
-  text-decoration: underline;
-  text-decoration-style: dashed;
 }
 
 p {

@@ -3,13 +3,11 @@
     <h1>Here is some info about this page</h1>
 
     <p>This website was created by me with the use of VueJS for the frontend. Various APIs were also used to create some of the functionality of this page. Some of these include:</p>
-
     <ul>
       <li v-for="i in apis" :key=i[0]><a :href="i[1]" target="_blank">{{i[0]}}</a> <ul><li>{{i[2]}}</li></ul> </li>
     </ul>
 
     <p>Some other technologies were used in order to make this page more secure and functional. Some of those include:</p>
-
     <ul>
       <li v-for="i in tech" :key=i[0]><a :href="i[1]" target="_blank">{{i[0]}}</a> <ul><li>{{i[2]}}</li></ul> </li>
     </ul>

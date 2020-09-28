@@ -112,8 +112,8 @@ body {
 
   background: linear-gradient(270deg, #ff0000, #d58516, #aeb728, #00813e, #003681, #b757c1);
   background-size: 1200% 1200%;
-  -webkit-animation: AnimationName 20s ease infinite;
-  animation: AnimationName 20s ease infinite;
+  -webkit-animation: AnimationName 25s ease infinite;
+  animation: AnimationName 25s ease infinite;
 }
 
 ul.sidebar-panel-nav {
