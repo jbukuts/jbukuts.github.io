@@ -1,5 +1,5 @@
 <template>
-  <div id="resume">
+  <div id="resume" :style="$isMobile() ? 'width: 95%;' : 'width: 60%;'">
 
     <h2><mark>Education</mark></h2>
     <h3>{{resume.Education.university.toUpperCase()}} - {{resume.Education.location.toUpperCase()}}</h3>
@@ -25,6 +25,14 @@
             </li>
         </ul>
     </div>
+
+    <h2><mark>Honors</mark></h2>
+    <ul>
+        <li v-for="h in resume.Honors" :key="h">
+            {{h}}
+        </li>
+    </ul>
+
     
   </div>
 </template>
@@ -32,6 +40,10 @@
 <script>
 // @ is an alias to /src
 import json from '../json/resume.json';
+import VueMobileDetection from "vue-mobile-detection";
+import Vue from 'vue';
+
+Vue.use(VueMobileDetection);
 
 export default {
   name: 'Resume',
@@ -58,7 +70,6 @@ mark {
 
 #resume {
     text-align: left;
-    width: 60%;
     margin-left: auto;
     margin-right: auto;
     overflow: scroll;

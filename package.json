@@ -13,6 +13,9 @@
     "moment-timezone": "^0.5.31",
     "v-tooltip": "^2.0.3",
     "vue": "^2.6.11",
+    "vue-carousel": "^0.18.0",
+    "vue-icon": "^2.1.2",
+    "vue-mobile-detection": "^1.0.0",
     "vue-router": "^3.2.0"
   },
   "devDependencies": {

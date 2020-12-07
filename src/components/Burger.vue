@@ -1,5 +1,5 @@
 <template>
-  <div id="burger" :class="{ 'active' : isBurgerActive }" @click.prevent="toggle">
+  <div id="burger" :class="{ 'active' : isBurgerActive }" @click="toggle">
     <slot>
       <button type="button" class="burger-button" title="Menu">
         <span class="hidden">Toggle menu</span>
@@ -22,6 +22,7 @@ export default {
   methods: {
     toggle() {
       mutations.toggleNav();
+      this.$emit('burger-click', store.isNavOpen);
     }
   }
 };
@@ -41,18 +42,20 @@ button:focus {
 }
 
 .burger-button {
-  position: relative;
+  position: absolute;
+  z-index: 10 !important;
   height: 30px;
   width: 32px;
   display: block;
-  z-index: 999;
   border: 0;
   border-radius: 0;
   background-color: transparent;
   pointer-events: all;
   transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-  right: 25px;
-  z-index: 4;
+  margin: 0px;
+  padding: 0px;
+  right: 10.75px;
+  top: 10.75px;
 }
 
 .burger-bar {

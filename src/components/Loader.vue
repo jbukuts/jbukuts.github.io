@@ -17,8 +17,8 @@ export default {
     width: 100px;
     height: 100px;
     animation: spin 2s linear infinite;
-    margin-top: 45%;
-    
+    margin-top: calc(50vh - 100px);
+    opacity: 1 !important;
 }
 
 @keyframes spin {

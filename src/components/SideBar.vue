@@ -1,7 +1,8 @@
 <template>
     <div class="sidebar">
-
-        <div class="sidebar-backdrop" @click="closeSidebarPanel" v-if="isPanelOpen"></div>
+        <transition name="fade">
+            <div class="sidebar-backdrop" @click="closeSidebarPanel" v-if="isPanelOpen"></div>
+        </transition>
         <transition name="slide">
             <div v-if="isPanelOpen"
                  class="sidebar-panel">
@@ -17,11 +18,13 @@ import { store, mutations } from '@/store.js'
 export default {
     name: 'SideBar',
     methods: {
-        closeSidebarPanel: mutations.toggleNav
+        closeSidebarPanel() {
+            mutations.toggleNav();
+            this.$emit('burger-click', store.isNavOpen);
+        }
     },
     computed: {
         isPanelOpen() {
-            this.$emit('burger-click', store.isNavOpen);
             return store.isNavOpen
         }
     }
@@ -45,10 +48,11 @@ export default {
     width: 100vw;
     height: 100vh;
     position: fixed;
+    z-index:  1 !important;
     top: 0;
     left: 0;
     cursor: pointer;
-    z-index: 3;
+    backdrop-filter: blur(5px);
 }
 .sidebar-panel {
     overflow-y: auto;

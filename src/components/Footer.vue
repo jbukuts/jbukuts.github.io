@@ -1,6 +1,6 @@
 <template>
     <div class="footer">
-        <p>Created using VueJs</p>
+        <p>Jake Bukuts 2020</p>
     </div>
 </template>
 
@@ -19,6 +19,7 @@ export default {
     position: fixed;
     bottom: 0px;
     line-height: 25px;
+    /** box-shadow: 0px -25px 20px white; **/
 }
 
 p {
