@@ -77,6 +77,8 @@ export default {
       let header = document.getElementById('header-stuff').querySelectorAll('h1');
       let theRest = document.querySelector('.home').children[0].childNodes;
 
+      console.log(theRest);
+
       // load in header
       for (let i=0; i<header.length; ++i) {
         header[i].style.opacity = 1;
@@ -176,9 +178,9 @@ export default {
 <style scoped>
 
 /** for the incremental fade in animation */
-.cover, hr, .home > div > p, #header-stuff h1  {
+.cover, hr, .home > div > p, #header-stuff h1, .weather  {
   opacity: 0;
-  transition: .65s opacity;
+  transition: .50s opacity;
 }
 
 #header-stuff {

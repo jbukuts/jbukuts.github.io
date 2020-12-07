@@ -4,7 +4,7 @@
         <Loader v-if='!this.loaded'></Loader>
 
         <div v-if='this.loaded' :style="$isMobile() ? 'width: 90%;' : 'width: 60%;'" style="margin: auto">
-            <h1>My Projects</h1>
+            <h1>My projects</h1>
             <h3>Color Key</h3>
             <div style="display: none">
                 <div v-for="lang in Object.keys(this.langColors)" :key="lang" style="display: flex; margin-bottom: 5px">
