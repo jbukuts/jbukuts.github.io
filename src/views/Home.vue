@@ -3,7 +3,7 @@
 
     <Loader v-if="!this.loaded"/>
 
-    <div v-if="this.loaded == true">
+    <div v-if="this.loaded == true" style="padding-bottom: 5px">
       <div id="header-stuff">
         <h1>welcome to my <mark>Github</mark> Page</h1>
         <h1>today is <mark>{{`${date.toLocaleString('default', { month: 'short' })} ${date.getDate()}, ${date.getFullYear()}`}}</mark></h1>
@@ -18,7 +18,7 @@
       <hr style="margin-bottom: 30px">
 
       <div class="cover">
-      <carousel :perPage=3 :perPageCustom="[[0, 1], [605, 2], [768, 3], [1200,4]]" :loop=true :autoplay=true :autoplayTimeout=5000 :paginationEnabled='!$isMobile()'>
+      <carousel :perPage=3 :perPageCustom="[[0, 1], [605, 2], [768, 3], [1200,4], [1500,5], [1800,6], [1920,6], [2200,7]]" :loop=true :autoplay=true :autoplayTimeout=5000 :paginationEnabled='!$isMobile()'>
         <slide  v-for="art in this.articles" :key="art.title">
           <Article :art='art'/>
         </slide>
@@ -28,8 +28,9 @@
       <hr style="margin-top:30px">
       <p style="text-align:right; font-size: 10px">created with NewsAPI</p>
 
-      <div class="weather" v-if="locationOn">
-        <WeatherCard :v-for="fore in this.dailyForecast.daily" :key="fore" :card="fore"/>
+
+      <div class="weather" v-if="locationOn" :style="this.$isMobile() ? 'width: 100%' : 'width: 40%'">
+        <WeatherCard v-for="f in this.dailyForecast.daily" :key="f.dt" :card="f"/>
       </div>
       
     </div>
@@ -58,7 +59,7 @@ export default {
   },
   data() {
     return {
-      times : [ "Asia/Tokyo", "America/Los_Angeles","America/New_York" ] ,
+      times : [ "Asia/Tokyo", "America/Los_Angeles","America/New_York" ],
       articles : [],
       date : new Date(),
       location : {city : 'Charlotte', state : 'NC'},
@@ -137,7 +138,7 @@ export default {
       (res) => {
         // then we can add to the promise array
         // to get other data
-        console.log('on');
+        //console.log('on');
         this.locationOn = true;
         let lat = res.coords.latitude;
         let lng = res.coords.longitude;        
@@ -150,7 +151,7 @@ export default {
     ).then(() => {
       // now we can resolve all promises and set values
       Promise.all(promArr).then((values) => {
-        console.log('resolving');
+        //console.log('resolving');
         this.articles = values[0];
 
         if (this.locationOn) {
@@ -163,7 +164,7 @@ export default {
         this.loaded = true;
         await new Promise(r => setTimeout(r, 1));
         this.animateHeader();
-        // console.log(this.dailyForecast.daily);
+        //console.log(this.dailyForecast.daily);
       });
 
     });
@@ -214,6 +215,11 @@ h1, h2, p, a {
 
 p {
   font-size: 20px;
+}
+
+.weather {
+  margin: auto;
+  margin-bottom: 45px;
 }
 
 </style>

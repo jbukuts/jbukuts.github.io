@@ -1,7 +1,7 @@
 <template>
     <div class="article">
         <h3 style="text-align: right">
-        <mark>{{art.title.substring(0,art.title.lastIndexOf(" - "))}}</mark>
+        <mark><a :href="art.url">{{art.title.substring(0,art.title.indexOf(" - "))}}</a></mark>
         </h3>
 
         <p v-if="art.author != null && art.author != ''" style="text-align: left; font-size: 12px; margin-bottom: 0px">
@@ -13,9 +13,7 @@
         </p>
 
         <img :src='art.urlToImage' style="border-radius: 10px; filter: grayscale(100%); max-height: 140px; max-width: 90%" />
-        <p style="font-size: 14px">{{art.description}}</p>
-        <a :href="art.url" target="_blank" style="color: black; font-weight: bold; font-size: 14px; position: absolute; bottom: 5px; left: calc(50% - 6.5em)">CLICK TO READ FULL ARTICLE</a>
-
+        <p style="font-size: 14px; text-align: center; padding: 0px 10px 0px 10px">{{art.description}}</p>
     </div>
     
 </template>
@@ -45,6 +43,16 @@ mark {
   padding-right: 7px;
 }
 
+mark:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
 .article::after {
   content: "";
   position: absolute;
@@ -61,10 +69,6 @@ mark {
   animation: AnimationName 20s ease infinite;
 }
 
-.article a:hover {
-  text-decoration: underline;
-  text-decoration-style: dashed;
-}
 
 .article {
   border: 1px solid black;

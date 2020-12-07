@@ -1,17 +1,15 @@
 <template>
-
-  
-
   <div id="app">
     <nav class="main-nav">
       <div class="logo">
         <a href="https://github.com/jbukuts/jbukuts.github.io"><img src='./assets/images/github.png' style="height: 25px; filter: invert(100%); margin-top: 3.5px"/></a>
         <i> Jake Bukuts</i>
       </div>
-      <Burger v-on:burger-click='toggleBlur'></Burger>
     </nav>
 
-    <SideBar v-on:burger-click='toggleBlur'>
+    <Burger></Burger>
+
+    <SideBar>
       <ul class="sidebar-panel-nav">
         <router-link tag="li" to="/" @click.native="toggle">Home</router-link>
         <router-link tag="li" to="/about" @click.native="toggle">About</router-link>
@@ -32,7 +30,7 @@
 </template>
 
 <script>
-import { mutations, store } from "./store.js";
+import { mutations } from "./store.js";
 import SideBar from '@/components/SideBar.vue'
 import Burger from "./components/Burger.vue";
 import Footer from "./components/Footer.vue";
@@ -54,10 +52,6 @@ export default {
   methods: {
     toggle() {
       mutations.toggleNav();
-      this.toggleBlur(store.isNavOpen);
-    },
-    toggleBlur(blur) {
-      document.getElementById('main').style.filter = (blur == true) ? 'blur(6px)' : 'blur(0px)';
     }
   }
   
@@ -108,7 +102,7 @@ body {
   top: 0px;
   width: 100vw;
   overflow: hidden;
-  z-index: 2;
+  z-index: 1;
 
   background: linear-gradient(270deg, #ff0000, #d58516, #aeb728, #00813e, #003681, #b757c1);
   background-size: 1200% 1200%;

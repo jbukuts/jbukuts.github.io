@@ -3,10 +3,10 @@
 
         <Loader v-if='!this.loaded'></Loader>
 
-        <div v-if='this.loaded' >
+        <div v-if='this.loaded' :style="$isMobile() ? 'width: 90%;' : 'width: 60%;'" style="margin: auto">
             <h1>My Projects</h1>
-            <div style="position: fixed; top: 5%; right: 10%; z-index: 1">
-                <h3>Color Key</h3>
+            <h3>Color Key</h3>
+            <div style="display: none">
                 <div v-for="lang in Object.keys(this.langColors)" :key="lang" style="display: flex; margin-bottom: 5px">
                     <div :style="`width: 20px; height: 20px; border-radius: 50%; background: ${langColors[lang]}`"></div>
                     <p style="margin: 0px; margin-left: 7px">{{lang}}</p>
@@ -29,6 +29,10 @@
 import Loader from '../components/Loader.vue';
 import CodeBar from '../components/CodeBar.vue';
 import axios from 'axios';
+import Vue from 'vue';
+import VueMobileDetection from "vue-mobile-detection";
+
+Vue.use(VueMobileDetection);
 
 export default {
     name : 'Projects',
@@ -45,13 +49,14 @@ export default {
         }
     },
     async mounted() {
+
         this.projects = await this.getRepos();        
         const reducer= (acc, curr) => acc.concat((Object.keys(curr.langs_data)));
         this.allLangs = [...new Set(this.projects.reduce(reducer, []).filter(x => x != 'total'))];
    
-        console.log(this.allLangs);
+        //console.log(this.allLangs);
         this.langColors = this.generateColors(this.allLangs);
-        console.log(this.langColors);
+        //console.log(this.langColors);
         this.loaded = true;
     },
     methods : {
@@ -128,7 +133,6 @@ export default {
 
 
 .projects {
-    width: 55%;
     height: 100%;
     overflow: scroll;
     margin-right: auto;
@@ -142,7 +146,6 @@ export default {
     padding-bottom: 30px;
     margin: auto;
     margin-bottom: 20px;
-    width: 90%;
     box-shadow: -5px 5px rgb(0, 0, 0);
 }
 

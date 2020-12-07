@@ -1,6 +1,6 @@
 <template>
     <div class="footer">
-        <p>Created using VueJs</p>
+        <p>Jake Bukuts 2020</p>
     </div>
 </template>
 
