@@ -61,13 +61,20 @@ export default {
 <style>
 @import './assets/styles/customtooltip.css';
 @import './assets/styles/customcarousel.css';
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 .router-link-exact-active {
   text-decoration: underline !important;
 }
 
+
 ::selection {
   background: rgb(170, 170, 170);
+}
+
+::-webkit-scrollbar {
+  display: none;
+  color: #003681;
 }
 
 @font-face {
@@ -78,11 +85,12 @@ export default {
 html {
   height: 100%;
 }
+
 body {
   border: 0px;
   margin: 0px;
   padding: 0px;
-  font-family: 'Futura';
+  font-family: 'Futura', 'Lato';
   height: 100%;
   background: white;
 }
@@ -103,7 +111,6 @@ body {
   width: 100vw;
   overflow: hidden;
   z-index: 1;
-
   background: linear-gradient(270deg, #ff0000, #d58516, #aeb728, #00813e, #003681, #b757c1);
   background-size: 1200% 1200%;
   -webkit-animation: AnimationName 25s ease infinite;
@@ -137,10 +144,6 @@ ul.sidebar-panel-nav > li:hover {
   padding-bottom: 25px;
   overflow-x: hidden;
   overflow-y: scroll;
-}
-
-::-webkit-scrollbar {
-  display: none;
 }
 
 #app {

@@ -53,7 +53,7 @@ export default {
       }
   },
   created() {
-      console.log(this.resume);
+      //console.log(this.resume);
   }
 
 }
@@ -72,7 +72,7 @@ mark {
     text-align: left;
     margin-left: auto;
     margin-right: auto;
-    overflow: scroll;
+    overflow: hidden;
 }
 
 .exp {

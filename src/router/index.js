@@ -27,12 +27,24 @@ Vue.use(VueRouter)
     path: '/projects',
     name: 'Projects',
     component: () => import(/* webpackChunkName: "about" */ '../views/Projects.vue')
+  },
+  {
+    path: '*',
+    name: 'Home',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Home.vue')
   }
 ]
 
 const router = new VueRouter({
   routes,
   mode: 'history'
+})
+
+// change the browser title
+router.beforeEach((to, from, next) => {
+  // console.log(to);
+  document.title = `Jake Bukuts - ${to.name}`;
+  next()
 })
 
 export default router

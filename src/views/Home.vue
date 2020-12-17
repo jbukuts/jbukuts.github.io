@@ -77,7 +77,7 @@ export default {
       let header = document.getElementById('header-stuff').querySelectorAll('h1');
       let theRest = document.querySelector('.home').children[0].childNodes;
 
-      console.log(theRest);
+      //console.log(theRest);
 
       // load in header
       for (let i=0; i<header.length; ++i) {

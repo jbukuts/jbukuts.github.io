@@ -1,12 +1,15 @@
 <template>
     <div class="projects" >
 
-        <Loader v-if='!this.loaded'></Loader>
+        <Loader v-if='!this.loaded && !this.failed'></Loader>
+
+        <Error v-if="this.failed" info="Too many request made to API"></Error>
 
         <div v-if='this.loaded' :style="$isMobile() ? 'width: 90%;' : 'width: 60%;'" style="margin: auto">
             <h1>My projects</h1>
-            <h3>Color Key</h3>
+            
             <div style="display: none">
+                <h3>Color Key</h3>
                 <div v-for="lang in Object.keys(this.langColors)" :key="lang" style="display: flex; margin-bottom: 5px">
                     <div :style="`width: 20px; height: 20px; border-radius: 50%; background: ${langColors[lang]}`"></div>
                     <p style="margin: 0px; margin-left: 7px">{{lang}}</p>
@@ -21,13 +24,13 @@
                 <CodeBar v-if='loaded' :list=item.langs_data :colors=langColors />
             </div>
         </div>
-
     </div>
 </template>
 
 <script>
 import Loader from '../components/Loader.vue';
 import CodeBar from '../components/CodeBar.vue';
+import Error from '../components/Error.vue';
 import axios from 'axios';
 import Vue from 'vue';
 import VueMobileDetection from "vue-mobile-detection";
@@ -38,19 +41,27 @@ export default {
     name : 'Projects',
     components : {
         Loader,
-        CodeBar
+        CodeBar,
+        Error
     },
     data() {
         return {
             projects : [],
             allLangs : [],
             langColors : {},
-            loaded : false
+            loaded : false,
+            failed: false
         }
     },
     async mounted() {
 
-        this.projects = await this.getRepos();        
+        this.projects = await this.getRepos();   
+        
+        if (this.projects == false) {
+            this.failed = true;
+            return;
+        }
+        
         const reducer= (acc, curr) => acc.concat((Object.keys(curr.langs_data)));
         this.allLangs = [...new Set(this.projects.reduce(reducer, []).filter(x => x != 'total'))];
    
@@ -112,6 +123,9 @@ export default {
                 }
 
                 return response.data;
+            }).catch( () => {
+                //console.log(err);
+                return false;
             });
         },
         async getLangs(url) {
