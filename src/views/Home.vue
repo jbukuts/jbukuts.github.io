@@ -204,6 +204,8 @@ mark {
 
 .home {
   height: 100%;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
 h1, h2, p, a {

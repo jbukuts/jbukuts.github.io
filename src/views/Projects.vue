@@ -149,6 +149,7 @@ export default {
 .projects {
     height: 100%;
     overflow: scroll;
+    overflow-x: hidden;
     margin-right: auto;
     margin-left: auto;
 }

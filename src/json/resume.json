@@ -29,7 +29,7 @@
     ],
     "Skills" : [
         {
-            "desc" : "Experience with various programming languanges:",
+            "desc" : "Experience with various programming languages:",
             "list" : [
                 {
                     "desc" : "Java",
@@ -54,7 +54,7 @@
             ]
         },
         {
-            "desc" : "Database maintenence and design experience:",
+            "desc" : "Database maintenance and design experience:",
             "list" : [
                 {
                     "desc" : "Using PostgreSQL and MySQL",
@@ -72,5 +72,5 @@
             ]
         }
     ],
-    "Honors" : ["Deans List Fall 2017, Fall 2019", "President's List Spring 2018, Fall 2018, Spring 2019", "Member of Phi Beta Kappa"]
+    "Honors" : ["Dean's List Fall 2017, Fall 2019", "President's List Spring 2018, Fall 2018, Spring 2019", "Member of Phi Beta Kappa"]
 }

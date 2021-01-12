@@ -138,12 +138,11 @@ ul.sidebar-panel-nav > li:hover {
 #main {
   margin-left: auto;
   margin-right: auto;
-  width: 90%;
+  width: 100%;
   height: calc(100% - 71px);
   padding-top: 46px;
   padding-bottom: 25px;
   overflow-x: hidden;
-  overflow-y: scroll;
 }
 
 #app {

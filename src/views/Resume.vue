@@ -73,6 +73,7 @@ mark {
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;
+    margin-bottom: 30px;
 }
 
 .exp {
